@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Resume</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #23a7ff; /* Blue */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin: 10px auto; /* Center the spinner */
+            display: none; /* Initially hidden */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <h1 class="banner">Resume Chat</h1>
+        <p class="intro-text">Hi, I am Sakthi! Chat with my resume.</p>
+        <div class="chat-box">
+            <input type="text" id="question" class="form-control" placeholder="Ask me a question..." onkeypress="handleKeyPress(event)">
+            <button class="btn btn-primary mt-2" onclick="askQuestion()">Chat</button>
+            <div id="response" class="response-box mt-3"></div>
+            <div class="loader" id="loadingSpinner"></div>  </div>
+    </div>
+    <script>
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                askQuestion();
+            }
+        }
+
+        function askQuestion() {
+            let question = document.getElementById("question").value;
+            let responseDiv = document.getElementById("response");
+            let loadingSpinner = document.getElementById("loadingSpinner");
+
+            responseDiv.innerHTML = ""; // Clear previous response
+            loadingSpinner.style.display = "block"; // Show spinner
+
+            fetch("/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: question })
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingSpinner.style.display = "none"; // Hide spinner
+                responseDiv.innerText = data.response;
+            })
+            .catch(error => {
+                loadingSpinner.style.display = "none"; // Hide spinner even on error
+                responseDiv.innerText = "Error: Could not get a response.";
+                console.error("Error fetching response:", error);
+            });
+        }
+    </script>
+</body>
+</html>

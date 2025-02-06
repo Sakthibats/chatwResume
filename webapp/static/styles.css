@@ -1,0 +1,45 @@
+
+body {
+    background: linear-gradient(to right, #e0f2ff, #cce5ff, #8cc8f8, #6697d8); 
+    color: #1e3c72; 
+    font-family: 'Roboto Mono', monospace; 
+    overflow-x: hidden;
+    animation: gradientShift 4s ease infinite alternate;
+    background-size: 200% 100%;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+
+.banner {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: left;
+    padding: 20px 0;
+}
+.intro-text {
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+.chat-box {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+}
+.response-box {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+
